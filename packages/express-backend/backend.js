@@ -7,6 +7,10 @@ const port = 8000;
 app.use(cors());
 app.use(express.json());
 
+function generateId() {
+  return Math.floor(Math.random() * 1000000).toString();
+}
+
 app.get("/", (req, res) => {
   res.send("Hello World!");
 });
@@ -48,6 +52,7 @@ const findUserByName = (name) => {
 };
 
 const addUser = (user) => {
+  user.id = generateId();
   users["users_list"].push(user);
   return user;
 };
@@ -55,7 +60,7 @@ const addUser = (user) => {
 app.post("/users", (req, res) => {
   const userToAdd = req.body;
   addUser(userToAdd);
-  res.status(200).send(); // Explicitly send a 200 OK response
+  res.status(201).send(); 
 });
 
 const deleteUserById = (id) => {
