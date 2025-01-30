@@ -59,8 +59,9 @@ const addUser = (user) => {
 
 app.post("/users", (req, res) => {
   const userToAdd = req.body;
+  userToAdd.id = generateId();
   addUser(userToAdd);
-  res.status(201).send(); 
+  res.status(201).send(userToAdd); 
 });
 
 const deleteUserById = (id) => {
@@ -73,13 +74,13 @@ const deleteUserById = (id) => {
 };
 
 app.delete("/users/:id", (req, res) => {
-  const id = req.params["id"];
-  const userDeleted = removeUserById(id);
-
-  if (userDeleted) {
-    res.status(200).send(`User with ID ${id} successfully deleted.`);
+  const id = req.params.id;
+  const index = users["users_list"].findIndex((user) => user["id"] === id);
+  if (index !== -1) {
+    users["users_list"].splice(index, 1);
+    res.status(204).send();
   } else {
-    res.status(404).send("User not found.");
+    res.status(404).send("User not found");
   }
 });
 
