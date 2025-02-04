@@ -37,7 +37,7 @@ function postUser(person) {
 }
 
 function removeOneCharacter(index) {
-  const id = characters[index].id;
+  const id = characters[index]._id;
   const url = `http://localhost:8000/users/${id}`;
   fetch(url, { method: 'DELETE' })
     .then((response) => {
